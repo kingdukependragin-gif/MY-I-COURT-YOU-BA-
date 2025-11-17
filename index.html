@@ -20,49 +20,48 @@
         }
         .container {
             background: white;
-            padding: 40px 25px;
-            border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 50px 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
             text-align: center;
             max-width: 90%;
         }
         h1 {
-            font-size: 1.9rem;
+            font-size: 2rem;
             color: #333;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             line-height: 1.4;
         }
         .buttons {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 20px;
         }
         button {
-            padding: 15px 32px;
-            font-size: 1.3rem;
+            padding: 18px 36px;
+            font-size: 1.5rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            min-width: 120px;
         }
         #yesBtn {
             background: #ff6b81;
             color: white;
+            box-shadow: 0 10px 20px rgba(255,107,129,0.4);
         }
         #noBtn {
             background: #54a0ff;
             color: white;
-            position: absolute;
+            box-shadow: 0 10px 20px rgba(84,160,255,0.4);
+            /* Hindi na absolute, fixed sa lugar */
         }
-        .message {
-            margin-top: 25px;
-            font-size: 1.2rem;
-            color: #e91e63;
-            font-weight: bold;
-            min-height: 35px;
+        #yesBtn:hover, #noBtn:hover {
+            transform: translateY(-5px);
         }
     </style>
 </head>
@@ -73,25 +72,25 @@
             <button id="yesBtn">Yes 🥰</button>
             <button id="noBtn">No</button>
         </div>
-        <div class="message" id="funnyMessage"></div>
     </div>
 
     <script>
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const message = document.getElementById('funnyMessage');
 
-        const messages = [
+        const noMessages = [
+            "No",
             "sure ka na?? 😏",
-            "final answer na yan ha? 🥲",
-            "last chance na to!!",
-            "pagsisihan mo 'to!!",
+            "final na 'to ha? 🥲",
+            "last chance na!!",
+            "pagsisisihan mo 'to!!",
             "sige na pleaaase 🥺",
             "ayaw mo talaga?? 😭",
-            "hindi na kita iistorbohin ulit!! 😤",
+            "I wont disturb na you ever again!! 😤",
             "bahala ka na nga!!",
-            "wala na akong maisip na gimmick 😅",
-            "sige, goodbye na lang... 💔"
+            "pweasseeeeeee say Yes 🥺",
+            "sige... goodbye na 💔",
+            "HMP!! 😒"
         ];
 
         let count = 0;
@@ -99,35 +98,524 @@
         noBtn.addEventListener('click', () => {
             count++;
 
-            // Palitan ng funny message
-            if (count < messages.length) {
-                message.textContent = messages[count];
+            // Palitan ang text sa loob ng No button
+            if (count < noMessages.length) {
+                noBtn.textContent = noMessages[count];
             } else {
-                message.textContent = "HMPP!! 😒";
+                noBtn.textContent = "FINE!! 😤";
             }
 
-            // Palakihin at i-bounce ang Yes button
-            yesBtn.style.fontSize = `${2 + count * 0.4}rem`;
-            yesBtn.style.padding = `${25 + count * 6}px ${45 + count * 12}px`;
-            yesBtn.style.transform = 'scale(1.2)';
-            setTimeout(() => yesBtn.style.transform = 'scale(1)', 300);
+            // Lumaki ang Yes button
+            const yesSize = 1.5 + (count * 0.35);
+            yesBtn.style.fontSize = `${yesSize}rem`;
+            yesBtn.style.padding = `${25 + count * 8}px ${50 + count * 15}px`;
 
-            // Teleport ang No button
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 200);
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            // Lumiliit ang No button
+            const noSize = 1.4 - (count * 0.09);
+            const noPadding = 16 - (count * 1.2);
+            if (noSize > 0.6) {
+                noBtn.style.fontSize = `${noSize}rem`;
+                noBtn.style.padding = `${noPadding}px ${noPadding * 2}px`;
+            } else {
+                noBtn.style.fontSize = '0.6rem';
+                noBtn.style.padding = '8px 16px';
+            }
+
+            // Optional: shake effect sa No button pag maliit na
+            if (count > 5) {
+                noBtn.style.animation = 'shake 0.5s';
+                setTimeout(() => noBtn.style.animation = '', 500);
+            }
         });
 
         yesBtn.addEventListener('click', () => {
-            message.textContent = "YAYYYYY!!! I LOVE YOU TALAGA BEBELOVES KO!!! 🥹❤️❤️❤️";
-            message.style.color = "#ff1744";
-            message.style.fontSize = "1.5rem";
-            document.body.style.opacity = '0';
+            noBtn.textContent = "YAYYYYY!!! 🥹❤️";
+            noBtn.style.background = "#ff6b81";
+            yesBtn.textContent = "I LOVE YOU POOO!!!";
+            
             setTimeout(() => {
-                window.location.href = 'celebration.html';
-            }, 1100);
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    window.location.href = 'celebration.html';
+                }, 1100);
+            }, 800);
         });
+
+        // Shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>May I Court You?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            transition: opacity 1s ease;
+        }
+        .container {
+            background: white;
+            padding: 50px 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            text-align: center;
+            max-width: 90%;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+        .buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        button {
+            padding: 18px 36px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            min-width: 120px;
+        }
+        #yesBtn {
+            background: #ff6b81;
+            color: white;
+            box-shadow: 0 10px 20px rgba(255,107,129,0.4);
+        }
+        #noBtn {
+            background: #54a0ff;
+            color: white;
+            box-shadow: 0 10px 20px rgba(84,160,255,0.4);
+            /* Hindi na absolute, fixed sa lugar */
+        }
+        #yesBtn:hover, #noBtn:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HI POOO 🥹<br>May I court you???</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes 🥰</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+
+        const noMessages = [
+            "No",
+            "sure ka na?? 😏",
+            "final na 'to ha? 🥲",
+            "last chance na!!",
+            "pagsisisihan mo 'to!!",
+            "sige na pleaaase 🥺",
+            "ayaw mo talaga?? 😭",
+            "I wont disturb na you ever again!! 😤",
+            "bahala ka na nga!!",
+            "pweasseeeeeee say Yes 🥺",
+            "sige... goodbye na 💔",
+            "HMP!! 😒"
+        ];
+
+        let count = 0;
+
+        noBtn.addEventListener('click', () => {
+            count++;
+
+            // Palitan ang text sa loob ng No button
+            if (count < noMessages.length) {
+                noBtn.textContent = noMessages[count];
+            } else {
+                noBtn.textContent = "FINE!! 😤";
+            }
+
+            // Lumaki ang Yes button
+            const yesSize = 1.5 + (count * 0.35);
+            yesBtn.style.fontSize = `${yesSize}rem`;
+            yesBtn.style.padding = `${25 + count * 8}px ${50 + count * 15}px`;
+
+            // Lumiliit ang No button
+            const noSize = 1.4 - (count * 0.09);
+            const noPadding = 16 - (count * 1.2);
+            if (noSize > 0.6) {
+                noBtn.style.fontSize = `${noSize}rem`;
+                noBtn.style.padding = `${noPadding}px ${noPadding * 2}px`;
+            } else {
+                noBtn.style.fontSize = '0.6rem';
+                noBtn.style.padding = '8px 16px';
+            }
+
+            // Optional: shake effect sa No button pag maliit na
+            if (count > 5) {
+                noBtn.style.animation = 'shake 0.5s';
+                setTimeout(() => noBtn.style.animation = '', 500);
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            noBtn.textContent = "YAYYYYY!!! 🥹❤️";
+            noBtn.style.background = "#ff6b81";
+            yesBtn.textContent = "I LOVE YOU POOO!!!";
+            
+            setTimeout(() => {
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    window.location.href = 'celebration.html';
+                }, 1100);
+            }, 800);
+        });
+
+        // Shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>May I Court You?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            transition: opacity 1s ease;
+        }
+        .container {
+            background: white;
+            padding: 50px 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            text-align: center;
+            max-width: 90%;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+        .buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        button {
+            padding: 18px 36px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            min-width: 120px;
+        }
+        #yesBtn {
+            background: #ff6b81;
+            color: white;
+            box-shadow: 0 10px 20px rgba(255,107,129,0.4);
+        }
+        #noBtn {
+            background: #54a0ff;
+            color: white;
+            box-shadow: 0 10px 20px rgba(84,160,255,0.4);
+            /* Hindi na absolute, fixed sa lugar */
+        }
+        #yesBtn:hover, #noBtn:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HI POOO 🥹<br>May I court you???</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes 🥰</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+
+        const noMessages = [
+            "No",
+            "sure ka na?? 😏",
+            "final na 'to ha? 🥲",
+            "last chance na!!",
+            "pagsisisihan mo 'to!!",
+            "sige na pleaaase 🥺",
+            "ayaw mo talaga?? 😭",
+            "I wont disturb na you ever again!! 😤",
+            "bahala ka na nga!!",
+            "pweasseeeeeee say Yes 🥺",
+            "sige... goodbye na 💔",
+            "HMP!! 😒"
+        ];
+
+        let count = 0;
+
+        noBtn.addEventListener('click', () => {
+            count++;
+
+            // Palitan ang text sa loob ng No button
+            if (count < noMessages.length) {
+                noBtn.textContent = noMessages[count];
+            } else {
+                noBtn.textContent = "FINE!! 😤";
+            }
+
+            // Lumaki ang Yes button
+            const yesSize = 1.5 + (count * 0.35);
+            yesBtn.style.fontSize = `${yesSize}rem`;
+            yesBtn.style.padding = `${25 + count * 8}px ${50 + count * 15}px`;
+
+            // Lumiliit ang No button
+            const noSize = 1.4 - (count * 0.09);
+            const noPadding = 16 - (count * 1.2);
+            if (noSize > 0.6) {
+                noBtn.style.fontSize = `${noSize}rem`;
+                noBtn.style.padding = `${noPadding}px ${noPadding * 2}px`;
+            } else {
+                noBtn.style.fontSize = '0.6rem';
+                noBtn.style.padding = '8px 16px';
+            }
+
+            // Optional: shake effect sa No button pag maliit na
+            if (count > 5) {
+                noBtn.style.animation = 'shake 0.5s';
+                setTimeout(() => noBtn.style.animation = '', 500);
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            noBtn.textContent = "YAYYYYY!!! 🥹❤️";
+            noBtn.style.background = "#ff6b81";
+            yesBtn.textContent = "I LOVE YOU POOO!!!";
+            
+            setTimeout(() => {
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    window.location.href = 'celebration.html';
+                }, 1100);
+            }, 800);
+        });
+
+        // Shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>May I Court You?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            transition: opacity 1s ease;
+        }
+        .container {
+            background: white;
+            padding: 50px 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            text-align: center;
+            max-width: 90%;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+        .buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        button {
+            padding: 18px 36px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            min-width: 120px;
+        }
+        #yesBtn {
+            background: #ff6b81;
+            color: white;
+            box-shadow: 0 10px 20px rgba(255,107,129,0.4);
+        }
+        #noBtn {
+            background: #54a0ff;
+            color: white;
+            box-shadow: 0 10px 20px rgba(84,160,255,0.4);
+            /* Hindi na absolute, fixed sa lugar */
+        }
+        #yesBtn:hover, #noBtn:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HI POOO 🥹<br>May I court you???</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes 🥰</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+
+        const noMessages = [
+            "No",
+            "sure ka na?? 😏",
+            "final na 'to ha? 🥲",
+            "last chance na!!",
+            "pagsisisihan mo 'to!!",
+            "sige na pleaaase 🥺",
+            "ayaw mo talaga?? 😭",
+            "I wont disturb na you ever again!! 😤",
+            "bahala ka na nga!!",
+            "pweasseeeeeee say Yes 🥺",
+            "sige... goodbye na 💔",
+            "HMP!! 😒"
+        ];
+
+        let count = 0;
+
+        noBtn.addEventListener('click', () => {
+            count++;
+
+            // Palitan ang text sa loob ng No button
+            if (count < noMessages.length) {
+                noBtn.textContent = noMessages[count];
+            } else {
+                noBtn.textContent = "FINE!! 😤";
+            }
+
+            // Lumaki ang Yes button
+            const yesSize = 1.5 + (count * 0.35);
+            yesBtn.style.fontSize = `${yesSize}rem`;
+            yesBtn.style.padding = `${25 + count * 8}px ${50 + count * 15}px`;
+
+            // Lumiliit ang No button
+            const noSize = 1.4 - (count * 0.09);
+            const noPadding = 16 - (count * 1.2);
+            if (noSize > 0.6) {
+                noBtn.style.fontSize = `${noSize}rem`;
+                noBtn.style.padding = `${noPadding}px ${noPadding * 2}px`;
+            } else {
+                noBtn.style.fontSize = '0.6rem';
+                noBtn.style.padding = '8px 16px';
+            }
+
+            // Optional: shake effect sa No button pag maliit na
+            if (count > 5) {
+                noBtn.style.animation = 'shake 0.5s';
+                setTimeout(() => noBtn.style.animation = '', 500);
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            noBtn.textContent = "YAYYYYY!!! 🥹❤️";
+            noBtn.style.background = "#ff6b81";
+            yesBtn.textContent = "I LOVE YOU POOO!!!";
+            
+            setTimeout(() => {
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    window.location.href = 'celebration.html';
+                }, 1100);
+            }, 800);
+        });
+
+        // Shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
