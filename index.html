@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>May I Court You?</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            text-align: center;
+            overflow: hidden;
+            transition: opacity 1.2s ease-in-out;
+        }
+        h1 {
+            color: white;
+            font-size: 2.8em;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .buttons {
+            margin-top: 40px;
+            gap: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            padding: 16px 36px;
+            font-size: 22px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        #yesBtn {
+            background: #ff6b81;
+            color: white;
+            box-shadow: 0 10px 25px rgba(255,107,129,0.5);
+        }
+        #noBtn {
+            background: #54a0ff;
+            color: white;
+            position: absolute;
+        }
+        button:hover { transform: translateY(-5px) scale(1.05); }
+
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 16px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>May I Court You?</h1>
+    <div class="buttons">
+        <button id="yesBtn">Yes 🥹❤️</button>
+        <button id="noBtn">No</button>
+    </div>
+    <div id="toast"></div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const toast = document.getElementById('toast');
+
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 2200);
+        }
+
+        // No button teleport
+        noBtn.addEventListener('click', () => {
+            showToast("ayaw mo? sige, magtatampo ako! 😝");
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        });
+
+        // Yes button → super smooth fade to celebration.html
+        yesBtn.addEventListener('click', () => {
+            showToast("yayyy! wait lang, preparing something special... 🥰");
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = 'celebration.html';
+            }, 1200); // match sa CSS transition duration
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YES NA TALAGA!!! ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+        }
+        h1 {
+            font-size: 3.5em;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            animation: bounce 2s infinite;
+        }
+        p {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        .gif-rain img {
+            position: absolute;
+            width: 90px;
+            height: auto;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 10;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
+        @keyframes fall {
+            0% { transform: translateY(-150vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>YES NA TALAGA!!! 🥹❤️</h1>
+    <p>grabe, sobrang saya ko! kase you're my girlfriend na! ✨</p>
+    <div class="gif-rain"></div>
+
+    <script>
+        const gifs = [
+            "https://media.tenor.com/ImN0N9iqAp4AAAAM/confetti-celebrate.gif",
+            "https://media.tenor.com/a1IwtdXx0RMAAAAM/confetti-purple.gif",
+            "https://media.tenor.com/7gWtm1z4s8YAAAAM/hearts-love.gif",
+            "https://media.tenor.com/CvfbXUbmOUIAAAAM/arien.gif",
+            "https://media.tenor.com/l9gbq8TMDUEAAAAM/celebratory-boom-boom.gif",
+            "https://media.tenor.com/Xe0b-7QPZkMAAAAM/yes-yes-yes.gif",
+            "https://media.tenor.com/FJlH1oZMxRQAAAAM/confetti-style.gif"
+        ];
+
+        // GIF rain every 200ms for 8 seconds = sobrang saya!
+        let count = 0;
+        const interval = setInterval(() => {
+            if (count > 60) clearInterval(interval);
+            const img = document.createElement('img');
+            img.src = gifs[Math.floor(Math.random() * gifs.length)];
+            img.style.left = Math.random() * 100 + 'vw';
+            img.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.querySelector('.gif-rain').appendChild(img);
+            count++;
+        }, 180);
+    </script>
+</body>
+</html>
